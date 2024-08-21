@@ -1,5 +1,22 @@
 # FFXVI Mod Manager Application
 
+Clone Repository:
+
+Initialize Submodules:
+
+`git submodule update --init --recursive`
+
+Build FF16Pack:
+
+`cd app/src-tauri`
+
+`./build.ps1` 
+or 
+`cd FF16Pack && dotnet build -c Release`
+
+
+Go back to `app` folder.
+
 Install Packages:
 
 `bun i`
