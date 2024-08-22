@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
-		"build": "next build",
+		"build": "next build && cp -R .next/static ./.next/standalone/.next && cp -R public ./.next/standalone && cp -R ./.next/standalone ./src-tauri/ && sed 's/const currentPort = parseInt(process.env.PORT, 10) || 3000/const currentPort = parseInt(process.argv[2], 10) || 3000/' ./.next/standalone/server.js > ./src-tauri/standalone/server.js",
 		"start": "next start",
 		"lint": "next lint",
 		"tauri:dev": "tauri dev",

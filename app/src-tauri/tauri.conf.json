@@ -3,7 +3,7 @@
 	"version": "0.1.0",
 	"identifier": "dev.thaun.ffxvimodmanager",
 	"build": {
-		"frontendDist": "../out/",
+		"frontendDist": "loading",
 		"devUrl": "http://localhost:3000",
 		"beforeDevCommand": "bun dev"
 	},
@@ -31,8 +31,8 @@
 			"icons/icon.icns",
 			"icons/icon.ico"
 		],
-		"externalBin": ["binaries/node/node"],
-		"resources": ["standalone/"]
+		"externalBin": ["binaries/ffxvi-modmanager-runner/ffxvi-modmanager-runner"],
+		"resources": ["standalone/", "binaries/ff16pack/"]
 	},
 	"$schema": "../node_modules/@tauri-apps/cli/schema.json"
 }
