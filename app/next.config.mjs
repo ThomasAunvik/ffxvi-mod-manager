@@ -1,14 +1,18 @@
+import path from "path";
+const __dirname = import.meta.dirname;
+
 const isProd = process.env.NODE_ENV === "production";
 
 const internalHost = process.env.TAURI_DEV_HOST || "localhost";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	output: "export",
+	//output: "export",
+	output: "standalone",
 	images: {
 		unoptimized: true,
 	},
-	assetPrefix: isProd ? null : `http://${internalHost}:3000`,
+	//assetPrefix: isProd ? null : `http://${internalHost}:3000`,
 };
 
 export default nextConfig;

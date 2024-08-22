@@ -1,3 +1,3 @@
-cd FF16Pack
+Set-Location FF16Pack
 dotnet build -c Release
-cd ..
+Set-Location ..

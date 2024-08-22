@@ -29,3 +29,13 @@ Arch: https://archlinux.org/packages/extra/x86_64/webkit2gtk
 Then run the application with:
 
 `bun run tauri`
+
+
+## Packaging Server
+
+Install `@yao-pkg/pkg` using npm
+`npm install -g @yao-pkg/pkg`
+
+run packager after standalone next build
+
+`npx pkg .`
