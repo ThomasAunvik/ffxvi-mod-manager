@@ -1,4 +1,3 @@
-import { appConfigDir } from "@tauri-apps/api/path";
 import {
 	writeTextFile,
 	readTextFile,
@@ -30,9 +29,6 @@ export const writeConfig = async (config: AppConfig) => {
 };
 
 export const readConfig = async () => {
-	const folder = await appConfigDir();
-	console.log("Reading log file from: ", folder);
-
 	const fileExists = await exists("config/config.json", {
 		baseDir: BaseDirectory.AppConfig,
 	});

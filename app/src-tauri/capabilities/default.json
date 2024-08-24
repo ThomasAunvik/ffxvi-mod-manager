@@ -46,6 +46,7 @@
 		"fs:allow-appconfig-write",
 		"fs:allow-appconfig-write-recursive",
 		"dialog:default",
-		"log:default"
+		"log:default",
+		"log:allow-log"
 	]
 }

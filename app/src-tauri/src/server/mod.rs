@@ -27,15 +27,20 @@ pub fn start_server(app: &mut App) {
         let mut main_window = app.get_webview_window("main").unwrap();
 
         let port = get_available_port();
+        let port_str = String::from(port.to_string());
+
+        main_window
+            .add_capability(format!(
+                "{{\"remote\": {{ \"urls\": [\"http://localhost:{}/*\"] }}}}",
+                port_str
+            ))
+            .expect("Failed to add capability");
 
         let sidecar_command = app
             .shell()
             .sidecar("ffxvi-modmanager-runner")
             .unwrap()
-            .args([
-                String::from("standalone/server.js"),
-                String::from(port.to_string()),
-            ]);
+            .args([String::from("standalone/server.js"), port_str]);
 
         let mut command = std::process::Command::from(sidecar_command);
         let cmd = command.spawn().expect("Failed to spawn node process");
@@ -48,14 +53,7 @@ pub fn start_server(app: &mut App) {
                 if cfg!(target_os = "windows") {
                     println!("Killing on windows with id: {}", pid);
                     std::process::Command::new("cmd")
-                        .args([
-                            "/C",
-                            "/Q",
-                            "taskkill",
-                            "-f",
-                            "-pid",
-                            pid.to_string().as_str(),
-                        ])
+                        .args(["/C", "taskkill", "-f", "-pid", pid.to_string().as_str()])
                         .creation_flags(config::CREATE_NO_WINDOW)
                         .output()
                         .expect("failed to execute process")
@@ -70,14 +68,7 @@ pub fn start_server(app: &mut App) {
                 if cfg!(target_os = "windows") {
                     println!("closing on windows with id: {}", pid);
                     std::process::Command::new("cmd")
-                        .args([
-                            "/C",
-                            "/Q",
-                            "taskkill",
-                            "-f",
-                            "-pid",
-                            pid.to_string().as_str(),
-                        ])
+                        .args(["/C", "taskkill", "-f", "-pid", pid.to_string().as_str()])
                         .creation_flags(config::CREATE_NO_WINDOW)
                         .output()
                         .expect("failed to execute process")
@@ -111,6 +102,7 @@ pub fn start_server(app: &mut App) {
                 main_window
                     .navigate(p_url)
                     .expect("Failed to navigate to server url");
+
                 return;
             }
         });

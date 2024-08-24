@@ -1,8 +1,8 @@
 [package]
-name = "app"
+name = "ffxvi-mod-manager"
 version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
+description = "Manage your mods here, and deliver your .pac's to the game"
+authors = ["Thomas Aunvik (aka Thaun_)"]
 license = ""
 repository = ""
 edition = "2021"
@@ -20,7 +20,7 @@ tauri-build = { version = "2.0.0-rc.3", features = [] }
 [dependencies]
 serde_json = "1.0.125"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "2.0.0-rc.3", features = ["protocol-asset"] }
+tauri = { version = "2.0.0-rc.6", features = ["protocol-asset"] }
 tauri-plugin-shell = { version = "2.0.0-rc.2" }
 
 tauri-plugin-fs = "2.0.0-rc.0"

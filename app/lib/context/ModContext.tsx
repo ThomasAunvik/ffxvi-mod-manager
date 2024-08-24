@@ -4,6 +4,7 @@ import { configAtom } from "@/lib/context/ConfigContext";
 import { interopBuildContext } from "@/lib/interop/mod";
 import { useCallback, useEffect } from "react";
 import { atom, useRecoilState, useRecoilValue } from "recoil";
+import { toast } from "sonner";
 
 export interface ModAtomData {
 	config: ModGlobalConfig;
@@ -24,11 +25,14 @@ export const ModAtomProvider = (props: ModAtomProviderProps) => {
 	const basePath = appConfig?.downloadPath;
 
 	const updateContext = useCallback(async () => {
-		if (!basePath) return;
+		try {
+			if (!basePath) return;
 
-		const res = await readModConfig(basePath);
-		setContext({ config: res });
-		console.log(res);
+			const res = await readModConfig(basePath);
+			setContext({ config: res });
+		} catch (err) {
+			toast(`Failed to load config: ${err}`);
+		}
 	}, [basePath, setContext]);
 
 	useEffect(() => {
