@@ -1,10 +1,12 @@
 "use client";
-import { interopBuildContext } from "@/interop/mod";
+import { ModGlobalConfig, readModConfig } from "@/lib/config/deploy";
+import { configAtom } from "@/lib/context/ConfigContext";
+import { interopBuildContext } from "@/lib/interop/mod";
 import { useCallback, useEffect } from "react";
-import { atom, useRecoilState } from "recoil";
+import { atom, useRecoilState, useRecoilValue } from "recoil";
 
 export interface ModAtomData {
-	installed: string[];
+	config: ModGlobalConfig;
 }
 
 export const modAtom = atom<ModAtomData | null>({
@@ -18,12 +20,16 @@ export interface ModAtomProviderProps {
 
 export const ModAtomProvider = (props: ModAtomProviderProps) => {
 	const [context, setContext] = useRecoilState(modAtom);
+	const appConfig = useRecoilValue(configAtom);
+	const basePath = appConfig?.downloadPath;
 
 	const updateContext = useCallback(async () => {
-		const res = await interopBuildContext();
-		setContext(res);
+		if (!basePath) return;
+
+		const res = await readModConfig(basePath);
+		setContext({ config: res });
 		console.log(res);
-	}, []);
+	}, [basePath, setContext]);
 
 	useEffect(() => {
 		updateContext();

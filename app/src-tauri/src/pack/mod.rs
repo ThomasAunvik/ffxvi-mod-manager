@@ -1,20 +1,10 @@
 use std::os::windows::process::CommandExt;
 use std::process::Command;
 
-use tauri::{async_runtime::Mutex, Manager, Wry};
+use tauri::{async_runtime::Mutex, Manager};
 
 use crate::appstate;
 use crate::config;
-
-pub trait PackExt {
-    fn build_commands_pack(self) -> tauri::Builder<Wry>;
-}
-
-impl PackExt for tauri::Builder<Wry> {
-    fn build_commands_pack(self) -> Self {
-        return self.invoke_handler(tauri::generate_handler![pack_list_files]);
-    }
-}
 
 #[tauri::command]
 pub async fn pack_list_files(
@@ -30,6 +20,16 @@ pub async fn pack_list_files(
     let result = listpackfiles(pac_name, game_path);
 
     return Ok(result);
+}
+
+#[tauri::command]
+pub async fn pack_files(folder: &str) -> Result<String, String> {
+    let result = packer_pack_files(folder);
+    if result.is_ok() {
+        return Ok(result.ok().unwrap());
+    } else {
+        return Err(result.err().unwrap());
+    }
 }
 
 pub fn listpackfiles(pac_name: &str, game_path: &str) -> String {
@@ -59,4 +59,59 @@ pub fn listpackfiles(pac_name: &str, game_path: &str) -> String {
     println!("Result: {}", output);
 
     return output;
+}
+
+pub fn packer_pack_files(folder: &str) -> Result<String, String> {
+    let mut output_path = String::from(folder);
+    output_path.push_str(".diff.pac");
+    let output_path_str = output_path.as_str();
+
+    let output = if cfg!(target_os = "windows") {
+        Command::new("binaries/ff16pack/FF16PackLib.CLI.exe")
+            .args(["pack", "-i", &folder, "-o", &output_path_str])
+            .creation_flags(config::CREATE_NO_WINDOW)
+            .output()
+            .expect("failed to execute process")
+    } else {
+        Command::new("wine")
+            .arg("binaries/ff16pack/FF16PackLib.CLI")
+            .args(["pack", "-i", &folder, "-o", &output_path_str])
+            .output()
+            .expect("failed to execute process")
+    };
+
+    let stdout = output.stdout;
+    let stderr = output.stderr;
+
+    let mut std_str = String::from_utf8(stdout).expect("Our bytes should be valid utf8");
+
+    if output.status.success() {
+        return Ok(std_str);
+    } else {
+        let stderr_str = String::from_utf8(stderr).expect("Our bytes should be valid utf8");
+        std_str.push_str(stderr_str.as_str());
+        return Err(std_str);
+    }
+}
+
+#[tauri::command]
+pub fn unpack_zip(file: &str, folder: &str) -> Result<String, String> {
+    let output = Command::new("tar")
+        .args(["-xf", &file, "-C", &folder])
+        .creation_flags(config::CREATE_NO_WINDOW)
+        .output()
+        .expect("failed to execute process");
+
+    let stdout = output.stdout;
+    let stderr = output.stderr;
+
+    let mut std_str = String::from_utf8(stdout).expect("Our bytes should be valid utf8");
+
+    if output.status.success() {
+        return Ok(std_str);
+    } else {
+        let stderr_str = String::from_utf8(stderr).expect("Our bytes should be valid utf8");
+        std_str.push_str(stderr_str.as_str());
+        return Err(std_str);
+    }
 }

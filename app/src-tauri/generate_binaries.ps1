@@ -12,6 +12,10 @@ if($IsWindows) {
 	Rename-Item "binaries/ff16pack/FF16PackLib.CLI" "FF16PackLib.CLI"
 }
 
+
+Copy-Item -Force "directstorage/*" "binaries/ff16pack"
+
+
 mkdir tmp -ErrorAction SilentlyContinue
 Set-Location tmp
 

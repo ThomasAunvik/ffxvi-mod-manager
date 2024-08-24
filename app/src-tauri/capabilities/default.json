@@ -22,6 +22,30 @@
 				}
 			]
 		},
-		"shell:allow-open"
+		"shell:allow-open",
+		"fs:allow-read-file",
+		"fs:allow-write-file",
+		"fs:allow-write-text-file",
+		"fs:allow-read-text-file",
+		"fs:allow-read-dir",
+		"fs:allow-copy-file",
+		"fs:allow-mkdir",
+		"fs:allow-remove",
+		"fs:allow-rename",
+		"fs:allow-exists",
+		"fs:read-all",
+		"fs:write-all",
+		"fs:default",
+		"fs:scope-appconfig",
+		"fs:scope-appconfig-index",
+		"fs:scope-appconfig-recursive",
+		"fs:allow-appconfig-meta",
+		"fs:allow-appconfig-meta-recursive",
+		"fs:allow-appconfig-read",
+		"fs:allow-appconfig-read-recursive",
+		"fs:allow-appconfig-write",
+		"fs:allow-appconfig-write-recursive",
+		"dialog:default",
+		"log:default"
 	]
 }

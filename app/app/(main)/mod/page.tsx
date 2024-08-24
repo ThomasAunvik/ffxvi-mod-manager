@@ -1,3 +1,5 @@
+"use client";
+
 import { MainTopBar } from "@/components/navigation/MainTopbar";
 import { ModeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";

@@ -41,8 +41,8 @@ import { Separator } from "@/components/ui/separator";
 import { usePathname } from "next/navigation";
 import { cn } from "@/components/lib/utils";
 import { useContext } from "react";
-import { userAtom, UserAtomProvider } from "@/components/context/UserContext";
-import { modAtom } from "@/components/context/ModContext";
+import { userAtom, UserAtomProvider } from "@/lib/context/UserContext";
+import { modAtom } from "@/lib/context/ModContext";
 import { useRecoilValue } from "recoil";
 import { ModeToggle } from "@/components/theme-toggle";
 
@@ -70,24 +70,10 @@ export const MainSidebar = (props: MainSidebarProps) => {
 			{ name: "Home", icon: <Home className="h-4 w-4" />, path: "/" },
 			{
 				name: "Installed Mods",
-				count: mod?.installed.length,
+				count: mod?.config?.mods?.length,
 				icon: <Package className="h-4 w-4" />,
 				path: "/installed",
 			},
-		],
-		[
-			{ name: "Browse", icon: <Search className="h-4 w-4" />, path: "/browse" },
-			{
-				name: "Popular",
-				icon: <ChartLine className="h-4 w-4" />,
-				path: "/browse/popular",
-			},
-			{
-				name: "Recently Updated",
-				icon: <Star className="h-4 w-4" />,
-				path: "/browse/recent",
-			},
-			{ name: "New", icon: <Star className="h-4 w-4" />, path: "/browse/new" },
 		],
 		[
 			{
@@ -95,21 +81,6 @@ export const MainSidebar = (props: MainSidebarProps) => {
 				icon: <Settings className="h-4 w-4" />,
 				path: "/settings",
 			},
-			...(user
-				? [
-						{
-							name: "Profile Settings",
-							icon: <UserCog className="h-4 w-4" />,
-							path: "/profile",
-						},
-					]
-				: [
-						{
-							name: "Log In",
-							icon: <LogIn className="h-4 w-4" />,
-							path: "/login",
-						},
-					]),
 		],
 	];
 

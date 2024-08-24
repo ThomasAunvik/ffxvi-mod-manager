@@ -3,9 +3,10 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/components/lib/utils";
 import { ThemeProvider } from "@/components/ui/theme-provider";
-import { UserAtomProvider } from "@/components/context/UserContext";
-import { ModAtomProvider } from "@/components/context/ModContext";
-import { RecoilProvider } from "@/components/context/RecoilProvider";
+import { UserAtomProvider } from "@/lib/context/UserContext";
+import { ModAtomProvider } from "@/lib/context/ModContext";
+import { RecoilProvider } from "@/lib/context/RecoilProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -35,7 +36,10 @@ export default function RootLayout({
 				>
 					<RecoilProvider>
 						<UserAtomProvider>
-							<ModAtomProvider>{children}</ModAtomProvider>
+							<ModAtomProvider>
+								{children}
+								<Toaster />
+							</ModAtomProvider>
 						</UserAtomProvider>
 					</RecoilProvider>
 				</ThemeProvider>
