@@ -63,7 +63,6 @@ export const MainSidebar = (props: MainSidebarProps) => {
 	const path = usePathname();
 
 	const mod = useRecoilValue(modAtom);
-	const user = useRecoilValue(userAtom);
 
 	const navigation: NavItem[][] = [
 		[

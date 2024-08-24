@@ -102,7 +102,7 @@ pub fn start_server(app: &mut App) {
                     continue;
                 }
 
-                thread::sleep(time::Duration::from_secs(1));
+                thread::sleep(time::Duration::from_millis(500));
 
                 let mut url: String = String::from("http://localhost:");
                 url.push_str(port.to_string().as_str());
