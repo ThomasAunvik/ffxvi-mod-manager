@@ -51,8 +51,7 @@ export const writeModConfig = async (
 };
 
 export const readModConfig = async (baseDir: string) => {
-	const unlockRes = await interopUnlockFolders();
-	console.log(unlockRes);
+	await interopUnlockFolders();
 
 	const fileExists = await exists(`${baseDir}/mods.json`);
 

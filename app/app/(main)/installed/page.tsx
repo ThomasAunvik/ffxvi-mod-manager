@@ -39,11 +39,12 @@ import { ModTable } from "@/components/mod/table/ModTable";
 import { DeployDialog } from "@/components/mod/deploy/DeployDialog";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import { importZipFile, showZipFileDialog } from "@/lib/tools/import";
+import { readConfig } from "@/lib/config";
 
 export default function Home() {
 	const [result, setResult] = useState("No list found");
 
-	const config = useRecoilValue(configAtom);
+	const [config, setConfig] = useRecoilState(configAtom);
 	const [mods, setMods] = useRecoilState(modAtom);
 
 	const [listmode, setListmode] = useState(true);
@@ -53,7 +54,17 @@ export default function Home() {
 	const [loadedMods, setLoadedMods] = useState<Mod[] | null>(null);
 
 	const refreshMods = useCallback(async () => {
-		const folder = config?.downloadPath;
+		let cfg = config;
+		if (!cfg) {
+			try {
+				cfg = await readConfig();
+				setConfig(cfg);
+			} catch (err) {
+				toast(`Failed to load config: ${err}`);
+			}
+		}
+
+		const folder = cfg?.downloadPath;
 		if (!folder) return;
 
 		const newMods = await listInstalledMods(folder);
