@@ -29,13 +29,6 @@ pub fn start_server(app: &mut App) {
         let port = get_available_port();
         let port_str = String::from(port.to_string());
 
-        main_window
-            .add_capability(format!(
-                "{{\"remote\": {{ \"urls\": [\"http://localhost:{}/*\"] }}}}",
-                port_str
-            ))
-            .expect("Failed to add capability");
-
         let sidecar_command = app
             .shell()
             .sidecar("ffxvi-modmanager-runner")

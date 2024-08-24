@@ -62,7 +62,8 @@ export default function Home() {
 							<Button onClick={selectGameFolder}>Browse</Button>
 							<Input
 								placeholder="Enter Game Path"
-								defaultValue={config?.gamePath}
+								value={config?.gamePath}
+								onChange={(event) => setGamePath(event.target.value)}
 							/>
 						</div>
 					</div>
@@ -73,7 +74,8 @@ export default function Home() {
 							<Button onClick={selectModsFolder}>Browse</Button>
 							<Input
 								placeholder="Enter Mods Folder Path"
-								defaultValue={config?.downloadPath}
+								value={config?.downloadPath}
+								onChange={(event) => setDownloadPath(event.target.value)}
 							/>
 						</div>
 					</div>
