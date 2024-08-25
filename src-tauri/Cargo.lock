@@ -1178,7 +1178,7 @@ dependencies = [
 
 [[package]]
 name = "ffxvi-mod-manager"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "log",
  "serde",

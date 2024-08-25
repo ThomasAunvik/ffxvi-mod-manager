@@ -113,7 +113,7 @@ export default function Home() {
 				{hasUpdate ? (
 					<SidebarUpdate update={hasUpdate} />
 				) : (
-					<Button>Check for updates</Button>
+					<Button onClick={buttonPressUpdate}>Check for updates</Button>
 				)}
 			</div>
 		</main>

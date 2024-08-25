@@ -14,7 +14,7 @@ export const SidebarUpdate = (props: SidebarUpdateProps) => {
 	const [update, setUpdate] = useState<Update | null>(props.update ?? null);
 
 	const [updating, setIsUpdating] = useState(false);
-	const [progress, setProgress] = useState<number>(0.5);
+	const [progress, setProgress] = useState<number>(0.0);
 
 	useEffect(() => {
 		if (update) return;
