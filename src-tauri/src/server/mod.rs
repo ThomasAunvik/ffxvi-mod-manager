@@ -1,6 +1,7 @@
 use core::time;
 use std::io::{BufRead, BufReader};
 use std::net::TcpListener;
+#[cfg(target_os = "windows")]
 use std::os::windows::process::CommandExt;
 use std::str::FromStr;
 use std::thread;
@@ -51,34 +52,30 @@ pub fn start_server(app: &mut App) {
 
         main_window.on_window_event(move |event| match event {
             WindowEvent::Destroyed => {
-                if cfg!(target_os = "windows") {
-                    println!("Killing on windows with id: {}", pid);
-                    std::process::Command::new("cmd")
-                        .args(["/C", "taskkill", "-f", "-pid", pid.to_string().as_str()])
-                        .creation_flags(config::CREATE_NO_WINDOW)
-                        .output()
-                        .expect("failed to execute process")
-                } else {
-                    std::process::Command::new("kill")
-                        .args(["-9", pid.to_string().as_str()])
-                        .output()
-                        .expect("failed to execute process")
-                };
+                #[cfg(target_os = "windows")]
+                std::process::Command::new("cmd")
+                    .args(["/C", "taskkill", "-f", "-pid", pid.to_string().as_str()])
+                    .creation_flags(config::CREATE_NO_WINDOW)
+                    .output()
+                    .expect("failed to execute process");
+                #[cfg(target_os = "linux")]
+                std::process::Command::new("kill")
+                    .args(["-9", pid.to_string().as_str()])
+                    .output()
+                    .expect("failed to execute process");
             }
             WindowEvent::CloseRequested { .. } => {
-                if cfg!(target_os = "windows") {
-                    println!("closing on windows with id: {}", pid);
-                    std::process::Command::new("cmd")
-                        .args(["/C", "taskkill", "-f", "-pid", pid.to_string().as_str()])
-                        .creation_flags(config::CREATE_NO_WINDOW)
-                        .output()
-                        .expect("failed to execute process")
-                } else {
-                    std::process::Command::new("sh")
-                        .args(["kill", "-9", pid.to_string().as_str()])
-                        .output()
-                        .expect("failed to execute process")
-                };
+                #[cfg(target_os = "windows")]
+                std::process::Command::new("cmd")
+                    .args(["/C", "taskkill", "-f", "-pid", pid.to_string().as_str()])
+                    .creation_flags(config::CREATE_NO_WINDOW)
+                    .output()
+                    .expect("failed to execute process");
+                #[cfg(target_os = "linux")]
+                std::process::Command::new("sh")
+                    .args(["kill", "-9", pid.to_string().as_str()])
+                    .output()
+                    .expect("failed to execute process");
             }
             _ => return,
         });
