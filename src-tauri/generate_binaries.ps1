@@ -1,7 +1,7 @@
 #!/bin/pwsh
 
 Set-Location FF16Pack
-dotnet build -c Release
+dotnet build -c Release FF16Tools.CLI
 Set-Location ..
 
 Copy-Item -Force "FF16Pack/FF16Tools.CLI/bin/Release/net8.0/*" binaries/ff16pack
