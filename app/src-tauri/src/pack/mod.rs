@@ -1,5 +1,6 @@
 use std::os::windows::process::CommandExt;
 use std::process::Command;
+use std::str::FromStr;
 
 use tauri::{async_runtime::Mutex, Manager};
 
@@ -37,17 +38,25 @@ pub fn listpackfiles(pac_name: &str, game_path: &str) -> String {
     let owned_pac_name = pac_name.to_owned();
     let mut owned_path = game_path.to_owned();
 
+    let executable = std::env::current_exe().unwrap();
+    let dir = executable.parent().unwrap();
+    let dir_str = dir.to_str().unwrap();
+
+    let mut executable_string = String::from_str(dir_str).unwrap();
+
     owned_path.push_str(&owned_pac_name);
 
     let output = if cfg!(target_os = "windows") {
-        Command::new("binaries/ff16pack/FF16PackLib.CLI.exe")
+        executable_string.push_str("/binaries/ff16pack/FF16PackLib.CLI.exe");
+        Command::new(executable_string)
             .args(["list-files", "-i", &owned_path])
             .creation_flags(config::CREATE_NO_WINDOW)
             .output()
             .expect("failed to execute process")
     } else {
+        executable_string.push_str("/binaries/ff16pack/FF16PackLib.CLI");
         Command::new("wine")
-            .arg("binaries/ff16pack/FF16PackLib.CLI")
+            .arg(executable_string)
             .args(["list-files", "-i", &owned_path])
             .output()
             .expect("failed to execute process")
@@ -66,15 +75,23 @@ pub fn packer_pack_files(folder: &str) -> Result<String, String> {
     output_path.push_str(".diff.pac");
     let output_path_str = output_path.as_str();
 
+    let executable = std::env::current_exe().unwrap();
+    let dir = executable.parent().unwrap();
+    let dir_str = dir.to_str().unwrap();
+
+    let mut executable_string = String::from_str(dir_str).unwrap();
+
     let output = if cfg!(target_os = "windows") {
-        Command::new("binaries/ff16pack/FF16PackLib.CLI.exe")
+        executable_string.push_str("/binaries/ff16pack/FF16PackLib.CLI.exe");
+        Command::new(executable_string)
             .args(["pack", "-i", &folder, "-o", &output_path_str])
             .creation_flags(config::CREATE_NO_WINDOW)
             .output()
             .expect("failed to execute process")
     } else {
+        executable_string.push_str("/binaries/ff16pack/FF16PackLib.CLI");
         Command::new("wine")
-            .arg("binaries/ff16pack/FF16PackLib.CLI")
+            .arg(executable_string)
             .args(["pack", "-i", &folder, "-o", &output_path_str])
             .output()
             .expect("failed to execute process")

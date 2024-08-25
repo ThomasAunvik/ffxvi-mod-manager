@@ -47,7 +47,7 @@ export default function Home() {
 	const [config, setConfig] = useRecoilState(configAtom);
 	const [mods, setMods] = useRecoilState(modAtom);
 
-	const [listmode, setListmode] = useState(true);
+	const [listmode, setListmode] = useState(false);
 
 	const [predeploy, setPredeploy] = useState<ModDeployConfig | null>(null);
 
@@ -116,6 +116,8 @@ export default function Home() {
 			if (!file) return;
 
 			await importZipFile(file, folder);
+
+			await refreshMods();
 		},
 		[refreshMods, config],
 	);
@@ -205,20 +207,26 @@ export default function Home() {
 				</div>
 			</div>
 			<div>
-				{mods?.config.mods && mods?.config.mods.length > 0 ? (
+				{mods?.config.mods ? (
 					<div>
-						{listmode ? (
-							<ModTable mods={mods?.config.mods} toggleMod={toggleMod} />
-						) : (
-							<div className="flex flex-row flex-wrap gap-4 p-4">
-								{mods?.config.mods.map((mod) => (
-									<ModCard
-										key={`mod-card-${mod.id}`}
-										mod={mod}
-										toggleMod={toggleMod}
-									/>
-								))}
+						{mods?.config.mods.length > 0 ? (
+							<div>
+								{listmode ? (
+									<ModTable mods={mods?.config.mods} toggleMod={toggleMod} />
+								) : (
+									<div className="flex flex-row flex-wrap gap-4 p-4">
+										{mods?.config.mods.map((mod) => (
+											<ModCard
+												key={`mod-card-${mod.id}`}
+												mod={mod}
+												toggleMod={toggleMod}
+											/>
+										))}
+									</div>
+								)}
 							</div>
+						) : (
+							<div>No mods loaded...</div>
 						)}
 					</div>
 				) : (

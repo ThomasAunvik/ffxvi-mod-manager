@@ -2,6 +2,7 @@ use core::time;
 use std::io::{BufRead, BufReader};
 use std::net::TcpListener;
 use std::os::windows::process::CommandExt;
+use std::str::FromStr;
 use std::thread;
 
 use tauri::{App, Manager, WindowEvent};
@@ -26,6 +27,13 @@ pub fn start_server(app: &mut App) {
         println!("Starting server...");
         let mut main_window = app.get_webview_window("main").unwrap();
 
+        let executable = std::env::current_exe().unwrap();
+        let dir = executable.parent().unwrap();
+        let dir_str = dir.to_str().unwrap();
+
+        let mut executable_string = String::from_str(dir_str).unwrap();
+        executable_string.push_str("/standalone/server.js");
+
         let port = get_available_port();
         let port_str = String::from(port.to_string());
 
@@ -33,7 +41,7 @@ pub fn start_server(app: &mut App) {
             .shell()
             .sidecar("ffxvi-modmanager-runner")
             .unwrap()
-            .args([String::from("standalone/server.js"), port_str]);
+            .args([executable_string, port_str]);
 
         let mut command = std::process::Command::from(sidecar_command);
         let cmd = command.spawn().expect("Failed to spawn node process");
