@@ -1,3 +1,3 @@
-[submodule "app/src-tauri/FF16Pack"]
-	path = app/src-tauri/FF16Pack
+[submodule "src-tauri/FF16Pack"]
+	path = src-tauri/FF16Pack
 	url = https://github.com/Nenkai/FF16Pack.git
