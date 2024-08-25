@@ -1,6 +1,6 @@
 {
-	"productName": "ffxvi-mod-manager",
-	"version": "0.1.0",
+	"productName": "FFXVI Mod Manager",
+	"version": "0.1.1",
 	"identifier": "dev.thaun.ffxvimodmanager",
 	"build": {
 		"frontendDist": "loading",
@@ -11,8 +11,8 @@
 		"windows": [
 			{
 				"title": "FFXVI Mod Manager",
-				"width": 800,
-				"height": 600,
+				"width": 1000,
+				"height": 700,
 				"resizable": true,
 				"fullscreen": false
 			}
