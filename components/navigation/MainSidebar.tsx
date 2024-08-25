@@ -45,6 +45,7 @@ import { userAtom, UserAtomProvider } from "@/lib/context/UserContext";
 import { modAtom } from "@/lib/context/ModContext";
 import { useRecoilValue } from "recoil";
 import { ModeToggle } from "@/components/theme-toggle";
+import { SidebarUpdate } from "@/components/update/SidebarUpdate";
 
 export interface MainSidebarProps {
 	children: React.ReactNode;
@@ -121,6 +122,10 @@ export const MainSidebar = (props: MainSidebarProps) => {
 								</div>
 							))}
 						</nav>
+						<div className="flex-1"></div>
+						<div className="mr-2 mb-2 ml-2 flex flex-col">
+							<SidebarUpdate />
+						</div>
 					</div>
 				</div>
 			</div>

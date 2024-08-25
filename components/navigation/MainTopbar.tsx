@@ -31,6 +31,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { MobileSidebar } from "@/components/navigation/MobileSidebar";
 import { TopbarUser } from "@/components/navigation/TopbarUser";
+import { SidebarUpdate } from "@/components/update/SidebarUpdate";
 
 export const MainTopBar = () => {
 	return (
@@ -44,6 +45,11 @@ export const MainTopBar = () => {
 				</SheetTrigger>
 				<SheetContent side="left" className="flex flex-col">
 					<MobileSidebar />
+
+					<div className="flex-1"></div>
+					<div className="mr-2 mb-2 ml-2 flex flex-col">
+						<SidebarUpdate />
+					</div>
 				</SheetContent>
 			</Sheet>
 		</header>

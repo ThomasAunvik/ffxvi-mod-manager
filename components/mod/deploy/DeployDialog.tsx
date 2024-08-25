@@ -99,24 +99,30 @@ export const DeployDialog = (props: DeployDialogProps) => {
 	const submit = useCallback(async () => {
 		setSubmitting(true);
 
-		const modsFolder = config?.downloadPath;
-		const gameFolder = config?.gamePath;
-		if (!modsFolder || !gameFolder) return;
+		try {
+			const modsFolder = config?.downloadPath;
+			const gameFolder = config?.gamePath;
+			if (!modsFolder || !gameFolder) return;
 
-		const globalConfig: ModGlobalConfig = {
-			mods: modConfig?.config.mods,
-			deploy: { mods: selectedDeploys },
-		};
+			const globalConfig: ModGlobalConfig = {
+				mods: modConfig?.config.mods,
+				deploy: { mods: selectedDeploys },
+			};
 
-		setModConfig((cfg) => ({ ...cfg, config: globalConfig }));
+			setModConfig((cfg) => ({ ...cfg, config: globalConfig }));
 
-		await writeModConfig(modsFolder, globalConfig);
+			await writeModConfig(modsFolder, globalConfig);
 
-		await deployFilesToTempFolder(selectedDeploys, modsFolder, gameFolder);
+			await deployFilesToTempFolder(selectedDeploys, modsFolder, gameFolder);
 
-		dismiss();
+			dismiss();
 
-		toast("Mods were successfully deployed!");
+			toast("Mods were successfully deployed!");
+		} catch (err) {
+			toast(`Failed to deploy ${err}`);
+		} finally {
+			setSubmitting(false);
+		}
 	}, [setModConfig, selectedDeploys, modConfig, config]);
 
 	const downloadDir = config?.downloadPath;

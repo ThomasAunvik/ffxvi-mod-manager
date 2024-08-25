@@ -12,16 +12,29 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
+import { getVersion, getName } from "@tauri-apps/api/app";
+import { Update } from "@tauri-apps/plugin-updater";
+import { checkForUpdates } from "@/lib/tools/updater";
+import { SidebarUpdate } from "@/components/update/SidebarUpdate";
+
 export default function Home() {
 	const [config, setConfig] = useRecoilState(configAtom);
 
 	const [gamePath, setGamePath] = useState(config?.gamePath);
 	const [downloadPath, setDownloadPath] = useState(config?.downloadPath);
 
+	const [appName, setAppName] = useState("");
+	const [appVersion, setAppVersion] = useState("");
+
+	const [hasUpdate, setUpdate] = useState<Update | null>(null);
+
 	useEffect(() => {
 		setGamePath(config?.gamePath);
 		setDownloadPath(config?.downloadPath);
-	}, [config]);
+
+		getVersion().then((v) => setAppVersion(v));
+		getName().then((v) => setAppName(v));
+	}, []);
 
 	const selectGameFolder = useCallback(async () => {
 		const folder = await showGameFolderDialog(config?.gamePath);
@@ -51,6 +64,13 @@ export default function Home() {
 			return newConfig;
 		});
 	}, [downloadPath, gamePath, setConfig]);
+
+	const buttonPressUpdate = useCallback(async () => {
+		const update = await checkForUpdates();
+		if (!update) setUpdate(null);
+
+		setUpdate(update);
+	}, []);
 
 	return (
 		<main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
@@ -85,6 +105,17 @@ export default function Home() {
 			) : (
 				<div>Loading config....</div>
 			)}
+			<div className="flex-1"></div>
+			<div className="flex flex-row">
+				<span className="mt-2 flex-1">
+					{appName} - v{appVersion}
+				</span>
+				{hasUpdate ? (
+					<SidebarUpdate update={hasUpdate} />
+				) : (
+					<Button>Check for updates</Button>
+				)}
+			</div>
 		</main>
 	);
 }

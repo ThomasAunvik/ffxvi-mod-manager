@@ -54,7 +54,8 @@ export const generatePacFiles = async (modsFolder: string) => {
 		const pacFolderExist = await exists(deployPac);
 		if (!pacFolderExist) continue;
 
-		await interopPackFiles(deployPac);
+		const res = await interopPackFiles(deployPac, `${pacFolder}.diff.pac`);
+		console.log(res);
 	}
 };
 

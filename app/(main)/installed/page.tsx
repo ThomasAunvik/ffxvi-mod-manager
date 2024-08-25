@@ -47,7 +47,7 @@ export default function Home() {
 	const [config, setConfig] = useRecoilState(configAtom);
 	const [mods, setMods] = useRecoilState(modAtom);
 
-	const [listmode, setListmode] = useState(false);
+	const [listmode, setListmode] = useState(true);
 
 	const [predeploy, setPredeploy] = useState<ModDeployConfig | null>(null);
 
