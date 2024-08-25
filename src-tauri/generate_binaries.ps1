@@ -4,12 +4,12 @@ Set-Location FF16Pack
 dotnet build -c Release
 Set-Location ..
 
-Copy-Item -Force "FF16Pack/FF16PackLib.CLI/bin/Release/net8.0/*" binaries/ff16pack
+Copy-Item -Force "FF16Pack/FF16Tools.CLI/bin/Release/net8.0/*" binaries/ff16pack
 
 if($IsWindows) {
-	Rename-Item "binaries/ff16pack/FF16PackLib.CLI.exe" "FF16PackLib.CLI.exe"
+	Rename-Item "binaries/ff16pack/FF16Tools.CLI.exe" "FF16Tools.CLI.exe"
 } else {
-	Rename-Item "binaries/ff16pack/FF16PackLib.CLI" "FF16PackLib.CLI"
+	Rename-Item "binaries/ff16pack/FF16Tools.CLI" "FF16Tools.CLI"
 }
 
 

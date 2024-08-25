@@ -47,14 +47,14 @@ pub fn listpackfiles(pac_name: &str, game_path: &str) -> String {
     owned_path.push_str(&owned_pac_name);
 
     let output = if cfg!(target_os = "windows") {
-        executable_string.push_str("/binaries/ff16pack/FF16PackLib.CLI.exe");
+        executable_string.push_str("/binaries/ff16pack/FF16Tools.CLI.exe");
         Command::new(executable_string)
             .args(["list-files", "-i", &owned_path])
             .creation_flags(config::CREATE_NO_WINDOW)
             .output()
             .expect("failed to execute process")
     } else {
-        executable_string.push_str("/binaries/ff16pack/FF16PackLib.CLI");
+        executable_string.push_str("/binaries/ff16pack/FF16Tools.CLI");
         Command::new("wine")
             .arg(executable_string)
             .args(["list-files", "-i", &owned_path])
@@ -82,14 +82,14 @@ pub fn packer_pack_files(folder: &str) -> Result<String, String> {
     let mut executable_string = String::from_str(dir_str).unwrap();
 
     let output = if cfg!(target_os = "windows") {
-        executable_string.push_str("/binaries/ff16pack/FF16PackLib.CLI.exe");
+        executable_string.push_str("/binaries/ff16pack/FF16Tools.CLI.exe");
         Command::new(executable_string)
             .args(["pack", "-i", &folder, "-o", &output_path_str])
             .creation_flags(config::CREATE_NO_WINDOW)
             .output()
             .expect("failed to execute process")
     } else {
-        executable_string.push_str("/binaries/ff16pack/FF16PackLib.CLI");
+        executable_string.push_str("/binaries/ff16pack/FF16Tools.CLI");
         Command::new("wine")
             .arg(executable_string)
             .args(["pack", "-i", &folder, "-o", &output_path_str])
