@@ -6,17 +6,6 @@ Initialize Submodules:
 
 `git submodule update --init --recursive`
 
-Build FF16Pack:
-
-`cd app/src-tauri`
-
-`./build.ps1` 
-or 
-`cd FF16Pack && dotnet build -c Release`
-
-
-Go back to `app` folder.
-
 ### Before running, Install Binaries
 
 Install the binaries required for the app.

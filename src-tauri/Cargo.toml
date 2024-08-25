@@ -1,10 +1,10 @@
 [package]
 name = "ffxvi-mod-manager"
 version = "0.1.0"
-description = "Manage your mods here, and deliver your .pac's to the game"
+description = "FFXVI Mod Manager"
 authors = ["Thomas Aunvik (aka Thaun_)"]
 license = ""
-repository = ""
+repository = "MIT License"
 edition = "2021"
 rust-version = "1.75"
 
