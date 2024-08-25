@@ -26,8 +26,8 @@ pub async fn pack_list_files(
 }
 
 #[tauri::command]
-pub async fn pack_files(folder: &str, pac_name: &str) -> Result<String, String> {
-    let result = packer_pack_files(folder, pac_name);
+pub async fn pack_files(folder: &str) -> Result<String, String> {
+    let result = packer_pack_files(folder);
     if result.is_ok() {
         return Ok(result.ok().unwrap());
     } else {
@@ -75,7 +75,7 @@ pub fn listpackfiles(pac_name: &str, game_path: &str) -> String {
     return output;
 }
 
-pub fn packer_pack_files(folder: &str, pac_name: &str) -> Result<String, String> {
+pub fn packer_pack_files(folder: &str) -> Result<String, String> {
     let mut output_path = String::from(folder);
     output_path.push_str(".diff.pac");
     let output_path_str = output_path.as_str();
@@ -93,15 +93,7 @@ pub fn packer_pack_files(folder: &str, pac_name: &str) -> Result<String, String>
 
     #[cfg(target_os = "windows")]
     let output = Command::new(executable_string)
-        .args([
-            "pack",
-            "-i",
-            &folder,
-            "-o",
-            &output_path_str,
-            "-n",
-            &pac_name,
-        ])
+        .args(["pack", "-i", &folder, "-o", &output_path_str])
         .creation_flags(config::CREATE_NO_WINDOW)
         .output()
         .expect("failed to execute process");
@@ -109,15 +101,7 @@ pub fn packer_pack_files(folder: &str, pac_name: &str) -> Result<String, String>
     #[cfg(target_os = "linux")]
     let output = Command::new("wine")
         .arg(executable_string)
-        .args([
-            "pack",
-            "-i",
-            &folder,
-            "-o",
-            &output_path_str,
-            "-n",
-            &pac_name,
-        ])
+        .args(["pack", "-i", &folder, "-o", &output_path_str])
         .output()
         .expect("failed to execute process");
 
