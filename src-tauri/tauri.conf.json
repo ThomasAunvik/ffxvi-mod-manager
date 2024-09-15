@@ -1,6 +1,6 @@
 {
 	"productName": "FFXVI Mod Manager",
-	"version": "0.1.4",
+	"version": "0.1.5",
 	"identifier": "dev.thaun.ffxvimodmanager",
 	"build": {
 		"frontendDist": "loading",

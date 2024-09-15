@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
-		"build": "next build && cp -R .next/static ./.next/standalone/.next && cp -R public ./.next/standalone && cp -R ./.next/standalone ./src-tauri/ && sed -e 's/const currentPort = parseInt(process.env.PORT, 10) || 3000/const currentPort = parseInt(process.argv[2], 10) || 3000/' -e \"s/const hostname = process.env.HOSTNAME || '0.0.0.0'/const hostname = 'localhost'/\" ./.next/standalone/server.js > ./src-tauri/standalone/server.js",
+		"build": "next build && cp -R .next/static ./.next/standalone/.next && cp -R public ./.next/standalone && cp -R ./.next/standalone ./src-tauri/ && sed -e 's/const currentPort = parseInt(process.env.PORT, 10) || 3000/const currentPort = parseInt(process.argv[2], 10) || 3000/' -e \"s/const hostname = process.env.HOSTNAME || '0.0.0.0'/const hostname = '127.0.0.1'/\" ./.next/standalone/server.js > ./src-tauri/standalone/server.js",
 		"start": "next start",
 		"lint": "next lint",
 		"tauri": "tauri",
