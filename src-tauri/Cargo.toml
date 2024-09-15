@@ -1,6 +1,6 @@
 [package]
 name = "ffxvi-mod-manager"
-version = "0.1.3"
+version = "0.1.4"
 description = "FFXVI Mod Manager"
 authors = ["Thomas Aunvik (aka Thaun_)"]
 license = ""
