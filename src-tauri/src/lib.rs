@@ -60,11 +60,17 @@ pub fn run() {
             let config = config::read_config(&okdir);
             if config.is_ok() {
                 let cfg = config.expect("Failed to fetch config");
-                eprintln!("Reading config..., {}", cfg.download_path);
+                let download_path = cfg.download_path.unwrap_or_default();
+                let game_path = cfg.game_path.unwrap_or_default();
+
                 log::info!("Reading config...!");
                 let scope = app.fs_scope();
-                scope.allow_directory(cfg.download_path, true);
-                scope.allow_directory(cfg.game_path, true);
+                if download_path != "" {
+                    scope.allow_directory(download_path, true);
+                }
+                if game_path != "" {
+                    scope.allow_directory(game_path, true);
+                }
             } else {
                 let err = config.err().expect("Failed to get error");
                 eprintln!("Error!! {}", err);

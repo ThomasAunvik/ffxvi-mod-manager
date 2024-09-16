@@ -8,9 +8,9 @@ pub const CREATE_NO_WINDOW: u32 = 0x08000000;
 #[derive(Serialize, Deserialize)]
 pub struct AppConfig {
     #[serde(rename = "gamePath")]
-    pub game_path: String,
+    pub game_path: Option<String>,
     #[serde(rename = "downloadPath")]
-    pub download_path: String,
+    pub download_path: Option<String>,
 }
 
 #[tauri::command]
@@ -31,17 +31,21 @@ pub fn unlock_folders(app_handle: tauri::AppHandle) -> Result<String, String> {
     }
 
     let cfg = config.unwrap();
-    let download_path = cfg.download_path;
-    let game_path = cfg.game_path;
+    let download_path = cfg.download_path.unwrap_or_default();
+    let game_path = cfg.game_path.unwrap_or_default();
 
     log::info!("Reading config...!");
     let scope = app_handle.fs_scope();
-    scope.allow_directory(&download_path, true);
-    scope.allow_directory(&game_path, true);
-
     let asset_scope = app_handle.asset_protocol_scope();
-    let _ = asset_scope.allow_directory(&download_path, true);
-    let _ = asset_scope.allow_directory(&game_path, true);
+
+    if download_path != "" {
+        scope.allow_directory(&download_path, true);
+        let _ = asset_scope.allow_directory(&download_path, true);
+    }
+    if game_path != "" {
+        scope.allow_directory(&game_path, true);
+        let _ = asset_scope.allow_directory(&game_path, true);
+    }
 
     return Ok(format!(
         "Directory: {} and {} allowed.",
